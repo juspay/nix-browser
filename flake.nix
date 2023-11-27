@@ -13,7 +13,7 @@
     rust-overlay.url = "github:oxalica/rust-overlay";
     crane.url = "github:ipetkov/crane";
     crane.inputs.nixpkgs.follows = "nixpkgs";
-    treefmt-nix.url = "github:numtide/treefmt-nix";
+    treefmt-nix.url = "github:divinenaman/treefmt-nix/dioxus-cli-fmt";
     treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
     process-compose-flake.url = "github:Platonic-Systems/process-compose-flake";
     cargo-doc-live.url = "github:srid/cargo-doc-live";
@@ -59,8 +59,15 @@
         # cf. https://numtide.github.io/treefmt/
         treefmt.config = {
           projectRootFile = "flake.nix";
+
+          settings.formatter.dioxus = {
+            includes = [ "src/app/*.rs" ];
+            # excludes = [ "*.rs" ];
+          };
+
           programs = {
             nixpkgs-fmt.enable = true;
+            dioxus.enable = true;
             rustfmt.enable = true;
           };
         };

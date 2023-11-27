@@ -298,15 +298,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1692524468,
-        "narHash": "sha256-wJffwu1deOgc3c/cBIZQ52dfWfPWBzjOamYBX121hcw=",
-        "owner": "numtide",
+        "lastModified": 1701102814,
+        "narHash": "sha256-o4E3iv8g0Gk5U9bsohpZdhXjNbbY2At9eyZms2Zl7g0=",
+        "owner": "divinenaman",
         "repo": "treefmt-nix",
-        "rev": "e2761d701581d8dcc4e0e88aecfde317ddf6f0cd",
+        "rev": "555e603c072f301fd6e0a129acf9758e46c98c7f",
         "type": "github"
       },
       "original": {
-        "owner": "numtide",
+        "owner": "divinenaman",
+        "ref": "dioxus-cli-fmt",
         "repo": "treefmt-nix",
         "type": "github"
       }
