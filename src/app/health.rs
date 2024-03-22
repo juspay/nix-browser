@@ -2,8 +2,19 @@
 
 use dioxus::prelude::*;
 use nix_health::traits::{Check, CheckResult};
-
+use dioxus_markdown::Markdown;
 use crate::{app::state::AppState, app::widget::Loader};
+
+pub fn renderMarkDown<'a>(cx: Scope<'a>, string: &'a str) -> Element<'a> {
+    cx.render(rsx! {
+        div {
+            Markdown {
+                class: "prose",
+                content: string,
+            }
+        }
+    })
+}
 
 /// Nix health checks
 pub fn Health(cx: Scope) -> Element {
@@ -11,6 +22,7 @@ pub fn Health(cx: Scope) -> Element {
     let health_checks = state.health_checks.read();
     let title = "Nix Health";
     render! {
+        renderMarkDown(cx, "# Markdown Working")
         h1 { class: "text-5xl font-bold", title }
         if health_checks.is_loading_or_refreshing() {
             render! { Loader {} }
@@ -18,12 +30,16 @@ pub fn Health(cx: Scope) -> Element {
         health_checks.render_with(cx, |checks| render! {
             div { class: "flex flex-col items-stretch justify-start space-y-8 text-left",
                 for check in checks {
+                    println!("{:?}", check)
                         ViewCheck { check: check.clone() }
+                        renderMarkDown(cx, "# hello \n - ok")
                 }
             }
         })
     }
 }
+
+
 
 #[component]
 fn ViewCheck(cx: Scope, check: Check) -> Element {

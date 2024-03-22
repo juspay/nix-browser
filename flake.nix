@@ -74,6 +74,7 @@
           packages = with pkgs; [
             just
             nixci
+            pkg-config
             # For when we start using Tauri
             cargo-tauri
             trunk

@@ -64,3 +64,4 @@ dioxus-std = { git = "https://github.com/ealmloff/dioxus-std.git", branch = "sto
     "storage",
 ] }
 fermi = { git = "https://github.com/DioxusLabs/dioxus.git", rev = "c7963a03440d5a050bf229f91665d60a0d108a8a" }
+dioxus_markdown = { git = "https://github.com/1vipulgupta/markdown.git", rev = "8d99f3f0ccf6af8d43e4222907efdfbfa051a293" }
