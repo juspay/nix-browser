@@ -1,0 +1,32 @@
+name: "Static binary"
+on:
+  workflow_call:
+    inputs:
+      system:
+        required: true
+        type: string
+
+jobs:
+  check:
+    steps:
+      - name: Test inputs context
+        run: echo "Running in ${{ inputs.system }}"
+      # - name: Donwload om static binary
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: om-${{ inputs.system == 'ubuntu-latest' && 'x86_64-linux' || inputs.system == 'macos-latest' && 'aarch64-darwin' || inputs.system }}
+      - name: Check nix installation
+        run: |
+          if which nix; then
+            echo "nix is installed, exiting"
+            exit 1
+          elif test -d /nix; then
+            echo "/nix is present, exiting"
+            exit 1
+          else
+            echo "nix is not installed"
+          fi
+      - name: Run om static binary
+        run: |
+          chmod +x ./om
+          ./om --help
