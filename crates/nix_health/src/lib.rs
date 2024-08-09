@@ -5,6 +5,7 @@ pub mod report;
 pub mod traits;
 
 use anyhow::Context;
+use check::nix_installer::NixInstaller;
 use colored::Colorize;
 
 use check::direnv::Direnv;
@@ -34,6 +35,7 @@ pub struct NixHealth {
     pub trusted_users: TrustedUsers,
     pub rosetta: Rosetta,
     pub direnv: Direnv,
+    pub nix_installer: NixInstaller,
 }
 
 impl<'a> IntoIterator for &'a NixHealth {
@@ -44,6 +46,7 @@ impl<'a> IntoIterator for &'a NixHealth {
     fn into_iter(self) -> Self::IntoIter {
         let items: Vec<Self::Item> = vec![
             &self.rosetta,
+            &self.nix_installer,
             &self.nix_version,
             &self.flake_enabled,
             &self.system,
