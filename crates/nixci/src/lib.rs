@@ -33,10 +33,15 @@ pub async fn nixci(
             let nix_info = NixInfo::new(nix_config.clone())
                 .await
                 .with_context(|| "Unable to gather nix info")?;
-            // First, run the necessary health checks
-            check_nix_version(&cfg.flake_url, &nix_info).await?;
-            // Then, do the build
-            nixci_build(nixcmd, verbose, build_cfg, &cfg, &nix_info.nix_config).await
+            match &build_cfg.on {
+                Some(host) => remote_build(nixcmd, &build_cfg, &cfg, host).await,
+                None => {
+                    // First, run the necessary health checks
+                    check_nix_version(&cfg.flake_url, &nix_info).await?;
+                    // Then, do the build
+                    nixci_build(nixcmd, verbose, build_cfg, &cfg, &nix_info.nix_config).await
+                }
+            }
         }
         cli::Command::DumpGithubActionsMatrix {
             systems, flake_ref, ..
@@ -53,6 +58,29 @@ pub async fn nixci(
             Ok(vec![])
         }
     }
+}
+
+async fn remote_build(
+    cmd: &NixCmd,
+    build_cfg: &BuildConfig,
+    cfg: &config::Config,
+    host: &String,
+) -> anyhow::Result<Vec<StorePath>> {
+    let omnix_input = format!("{}", env!("OMNIX"));
+
+    let metadata = nix_rs::flake::metadata::get_flake_metadata_json(cmd, &cfg.flake_url.0).await?;
+
+    nix_rs::copy::run_nix_copy(
+        cmd,
+        &host,
+        &omnix_input,
+        &metadata.path,
+        &build_cfg.extra_nix_build_args,
+    )
+    .await?;
+
+    let result = nix::ssh::nix_run_on_ssh(&build_cfg, &host, &omnix_input, &metadata.path).await?;
+    Ok(result)
 }
 
 async fn nixci_build(

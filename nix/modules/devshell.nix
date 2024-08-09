@@ -38,6 +38,7 @@ in
         ''
           # For nixci
           export DEVOUR_FLAKE=${inputs.devour-flake}
+          export OMNIX=${inputs.omnix}
         '' +
         ''
           echo

@@ -158,6 +158,10 @@ pub struct BuildConfig {
     /// useful to explicitly push all dependencies to a cache.
     #[clap(long, short = 'd')]
     pub print_all_dependencies: bool,
+
+    /// Run om ci build remotely
+    #[clap(long)]
+    pub on: Option<String>,
 }
 
 impl BuildConfig {

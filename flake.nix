@@ -25,6 +25,9 @@
     # Also note: Using shivaraj-bh fork of nix which fixes x86_64-darwin on top of github:DeterminateSystems/nix-src/flake-schemas
     nix.url = "github:shivaraj-bh/nix/flake-schemas";
 
+    omnix.url = "github:juspay/omnix";
+    omnix.flake = false;
+
   };
 
   outputs = inputs:

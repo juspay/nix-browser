@@ -290,6 +290,22 @@
         "type": "github"
       }
     },
+    "omnix": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1723134367,
+        "narHash": "sha256-WAW43jA6JiFj1ur0nirL0WlDgKxtYblbmtf5+EvFdFs=",
+        "owner": "juspay",
+        "repo": "omnix",
+        "rev": "5ec3a5207773b7b9e9f999d03a49508b21b5ed06",
+        "type": "github"
+      },
+      "original": {
+        "owner": "juspay",
+        "repo": "omnix",
+        "type": "github"
+      }
+    },
     "pre-commit-hooks": {
       "inputs": {
         "flake-compat": [
@@ -345,6 +361,7 @@
         "flake-schemas": "flake-schemas",
         "nix": "nix",
         "nixpkgs": "nixpkgs_2",
+        "omnix": "omnix",
         "process-compose-flake": "process-compose-flake",
         "rust-flake": "rust-flake",
         "systems": "systems_2",
