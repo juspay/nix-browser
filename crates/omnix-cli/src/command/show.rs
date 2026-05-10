@@ -149,6 +149,14 @@ impl ShowCommand {
                 self.flake_url
             )),
         );
+        print_flake_output_table(
+            "🔄 Process Compose",
+            &["allSystems", system.as_ref()],
+            Some(format!(
+                "nix run {}#<name>",
+                self.flake_url
+            )),
+        );
         print_flake_output_table("🔧 NixOS Modules", &["nixosModules"], None);
         print_flake_output_table(
             "🐳 Docker Images",

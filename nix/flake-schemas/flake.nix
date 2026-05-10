@@ -1,8 +1,9 @@
 {
   inputs = {
     flake-schemas.url = "github:DeterminateSystems/flake-schemas";
+    systems.url = "github:nix-systems/default";
   };
-  outputs = { flake-schemas, ... }:
+  outputs = inputs@{ flake-schemas, ... }:
     let
       appsSchema = {
         version = 1;
@@ -79,6 +80,32 @@
             })
           output);
       };
+      processComposeSchema = {
+        # Enabling flake-parts `debug` flag is required for this schema to work.
+        # https://flake.parts/options/flake-parts.html#opt-debug
+        # TODO: https://github.com/Platonic-Systems/process-compose-flake should provide schema for it self
+        # So that omnix at runtime can fetch and merge the schema from the flake
+        version = 1;
+        doc = ''
+          The `apps` output provides commands available via `nix run`.
+        '';
+        inventory = output:
+          flake-schemas.lib.mkChildren (builtins.listToAttrs (map
+            (system: {
+              name = system;
+              value = flake-schemas.lib.mkChildren (builtins.mapAttrs
+                (processes: definition:
+                  {
+                    evalChecks.isValidProcess =
+                      definition ? settings;
+                    what = "Process Compose";
+                    evalOnAllSystems = true;
+                  })
+                (output.${system}.process-compose or { }));
+            })
+            (import inputs.systems)));
+      };
+
     in
     {
       schemas = flake-schemas.schemas // {
@@ -87,6 +114,7 @@
         nixosConfigurations = nixosConfigurationsSchema;
         homeConfigurations = homeConfigurationsSchema;
         darwinConfigurations = darwinConfigurationsSchema;
+        allSystems = processComposeSchema;
       };
     };
 }
