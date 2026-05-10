@@ -10,6 +10,9 @@
     haskell-template.url = "github:srid/haskell-template";
     haskell-template.flake = false;
 
+    python-nix-template.url = "github:sciexp/python-nix-template";
+    python-nix-template.flake = false;
+
     rust-nix-template.url = "github:srid/rust-nix-template";
     rust-nix-template.flake = false;
 
